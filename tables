@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>جدول قابل للقفل</title>
+<style>
+  body { font-family: Arial, sans-serif; direction: rtl; padding: 20px; }
+  table { border-collapse: collapse; width: 80%; }
+  th, td { border: 1px solid #000; padding: 8px; text-align: center; }
+  input { width: 90%; }
+  .locked { background-color: #ddd; }
+  #passwordSection { position: fixed; top: 10px; left: 10px; }
+</style>
+</head>
+<body>
+
+<div id="passwordSection">
+  <input type="password" id="masterPassword" placeholder="كلمة السر">
+  <button onclick="unlockAll()">فتح</button>
+</div>
+
+<table>
+  <tr>
+    <th>العمود 1</th>
+    <th>قفل</th>
+    <th>العمود 3</th>
+    <th>العمود 4</th>
+  </tr>
+  <!-- إنشاء 10 صفوف -->
+  <script>
+    const table = document.currentScript.parentElement;
+    for (let i = 0; i < 10; i++) {
+      const row = table.insertRow();
+      
+      // العمود 1 - إدخال
+      const cell1 = row.insertCell();
+      const input = document.createElement("input");
+      input.type = "text";
+      cell1.appendChild(input);
+
+      // العمود 2 - زر ✔
+      const cell2 = row.insertCell();
+      const btn = document.createElement("button");
+      btn.textContent = "✔";
+      btn.onclick = function() {
+        input.disabled = true;
+        input.classList.add("locked");
+      };
+      cell2.appendChild(btn);
+
+      // العمود 3
+      row.insertCell().textContent = "";
+
+      // العمود 4
+      row.insertCell().textContent = "";
+    }
+
+    const MASTER_PASSWORD = "1234"; // ضع هنا كلمة السر الخاصة بك
+    function unlockAll() {
+      const entered = document.getElementById("masterPassword").value;
+      if (entered === MASTER_PASSWORD) {
+        const inputs = document.querySelectorAll("table input");
+        inputs.forEach(input => {
+          input.disabled = false;
+          input.classList.remove("locked");
+        });
+        alert("تم فتح كل الخانات!");
+      } else {
+        alert("كلمة السر غير صحيحة!");
+      }
+    }
+  </script>
+</table>
+
+</body>
+</html>
